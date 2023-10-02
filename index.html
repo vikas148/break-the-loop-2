@@ -10,6 +10,7 @@
             color: #0f0;
             font-family: "Courier New", Courier, monospace;
             padding: 20px;
+            overflow: hidden;
         }
         pre {
             background-color: #111;
@@ -18,19 +19,65 @@
             border-radius: 5px;
             overflow-x: auto;
         }
+        @keyframes glitch {
+            0% {
+                transform: translate(0);
+            }
+            25% {
+                transform: translate(4px, -4px);
+            }
+            50% {
+                transform: translate(-4px, 4px);
+            }
+            75% {
+                transform: translate(2px, 2px);
+            }
+            100% {
+                transform: translate(0);
+            }
+        }
+        .glitch-text {
+            font-size: 24px;
+            animation: glitch 3s infinite;
+        }
+        .blinking-cursor::after {
+            content: "_";
+            animation: blink 1s infinite;
+        }
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>Hacker's Code</h1>
-    <p>Below is your C code snippet:</p>
-    <pre>
+    <h1 class="glitch-text">Break the loop -2</h1>
+    <p>Below is your C code snippit :</p>
+    <pre id="code-container">
         <code>
-            <span style="color:#0f0">char</span> ch = 1;
-            <span style="color:#00f">for</span> (ch = 1; ch; ch++) 
-                <span style="color:#0f">printf</span>(<span style="color:#f00">"Pankaj", );</span>
-            
-                <span style="color:#0f">printf</span>(<span style="color:#f00">"End");</span>
+                  <span style="color:#0f0">char</span> ch = 1;    
         </code>
     </pre>
+    <div class="blinking-cursor"></div>
+
+    <script>
+        const codeElement = document.querySelector('#code-container code');
+        const codeText = 'for (ch = 1; ch; ch++) \n     printf("Pankaj");\n \nprintf("End");';
+
+        let index = 0;
+        function typeCode() {
+            if (index < codeText.length) {
+                codeElement.textContent += codeText.charAt(index);
+                index++;
+                setTimeout(typeCode, 50); 
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', typeCode);
+    </script>
 </body>
 </html>
